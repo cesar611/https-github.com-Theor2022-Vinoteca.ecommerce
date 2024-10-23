@@ -17,6 +17,12 @@ public class Order {
     @Column(name = "fecha_creacion") // Nombre más descriptivo para la columna
     private LocalDateTime fechaCreacion;
 
+    @Column(name = "fecha_entrega")
+    private LocalDateTime fechaEntrega;
+
+    @Column(name = "direccion")
+    private String direccion;
+
     @Column(name = "estado")
     private String estado;
 
@@ -27,15 +33,12 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user; // Usar User en lugar de Users
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_products",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    @OneToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
-    // Getters y Setters
+// Getters and setters
+
     public Long getId() {
         return id;
     }
@@ -50,6 +53,30 @@ public class Order {
 
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public LocalDateTime getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(LocalDateTime fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public Double getTotal() {
@@ -67,19 +94,16 @@ public class Order {
     public void setUser(User user) {
         this.user = user;
     }
-    public String getEstado() {
-        return estado;
+
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
 }
+
+

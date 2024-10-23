@@ -19,9 +19,6 @@ public class Product {
     @Column(name = "descripcion")
     private String description;
 
-    @Column(name = "tipo_bebida")
-    private String tipoBebida;
-
     @Column(name = "precio")
     @NotNull(message = "Price is mandatory")
     private BigDecimal price;
@@ -59,15 +56,6 @@ public class Product {
 
     public Product setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public String getTipoBebida() {
-        return tipoBebida;
-    }
-
-    public Product setTipoBebida(String tipoBebida) {
-        this.tipoBebida = tipoBebida;
         return this;
     }
 

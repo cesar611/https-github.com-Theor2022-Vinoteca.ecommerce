@@ -19,6 +19,11 @@ public class User {
     private String email;
     @Column(name = "password") // nombre de la columna en la base de datos
     private String password;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "isAdmin")
+    private Boolean isAdmin;
+
 
     @OneToMany(mappedBy = "user") // Define una relación de uno a muchos con la entidad Order
     private List<Order> orders;
@@ -47,6 +52,24 @@ public class User {
 
     public User setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public String phone() {
+        return phone;
+    }
+
+    public User setPhone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    public Boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public User setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
         return this;
     }
 
