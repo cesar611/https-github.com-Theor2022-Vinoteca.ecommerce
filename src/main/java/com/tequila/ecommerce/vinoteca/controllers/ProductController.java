@@ -49,7 +49,6 @@ public class ProductController {
         if (existingProduct != null) {
             existingProduct.setName(productDetails.getName())
                     .setDescription(productDetails.getDescription())
-                    .setTipoBebida(productDetails.getTipoBebida())
                     .setPrice(productDetails.getPrice())
                     .setStock(productDetails.getStock())
                     .setCategory(productDetails.getCategory());
