@@ -19,7 +19,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart")
-    private List<Product> products = new ArrayList<>();
+    private List<ProductCart> products = new ArrayList<>();
 
     @Column(name = "active")
     boolean status;
@@ -40,14 +40,14 @@ public class Cart {
         this.user = user;
     }
 
-    public List<Product> getProducts() {
+    public List<ProductCart> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductCart> products) {
         this.products = products;
     }
-    public void addProduct(Product product) {
+    public void addProduct(ProductCart product) {
         products.add(product);
     }
 
