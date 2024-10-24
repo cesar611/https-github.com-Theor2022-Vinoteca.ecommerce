@@ -18,7 +18,7 @@ public class Cart {
     private Long userId;
 
     @OneToMany(mappedBy = "cart")
-    private List<Product> products = new ArrayList<>();
+    private List<ProductCart> products = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -36,14 +36,14 @@ public class Cart {
         this.userId = userId;
     }
 
-    public List<Product> getProducts() {
+    public List<ProductCart> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductCart> products) {
         this.products = products;
     }
-    public void addProduct(Product product) {
+    public void addProduct(ProductCart product) {
         products.add(product);
     }
 }

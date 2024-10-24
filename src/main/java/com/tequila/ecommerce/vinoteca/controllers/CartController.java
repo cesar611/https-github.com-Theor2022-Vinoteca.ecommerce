@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
   @Autowired
-  private CartService CartService;
+  private com.tequila.ecommerce.vinoteca.services.CartService CartService;
 
   @PostMapping
   public ResponseEntity<Cart> crearCarrito(@RequestBody Cart carrito) {
