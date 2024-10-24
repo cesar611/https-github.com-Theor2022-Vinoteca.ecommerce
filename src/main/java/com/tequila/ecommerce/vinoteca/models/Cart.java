@@ -14,11 +14,15 @@ public class Cart {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "cart")
     private List<Product> products = new ArrayList<>();
+
+    @Column(name = "active")
+    boolean status;
 
     public Long getId() {
         return id;
@@ -28,12 +32,12 @@ public class Cart {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Product> getProducts() {
@@ -45,5 +49,13 @@ public class Cart {
     }
     public void addProduct(Product product) {
         products.add(product);
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
