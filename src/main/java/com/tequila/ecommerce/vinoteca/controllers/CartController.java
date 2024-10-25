@@ -15,7 +15,7 @@ public class CartController {
 
   @PostMapping
   public ResponseEntity<Cart> crearCarrito(@RequestBody Cart carrito) {
-    Cart nuevoCarrito = CartService.CrearCart(carrito.getUser());
+    Cart nuevoCarrito = CartService.crearCart(carrito.getUser());
     return ResponseEntity.ok(nuevoCarrito);
   }
 

@@ -1,10 +1,18 @@
 package com.tequila.ecommerce.vinoteca.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "carts")
 public class Cart {
@@ -24,38 +32,4 @@ public class Cart {
     @Column(name = "active")
     boolean status;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<ProductCart> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<ProductCart> products) {
-        this.products = products;
-    }
-    public void addProduct(ProductCart product) {
-        products.add(product);
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 }

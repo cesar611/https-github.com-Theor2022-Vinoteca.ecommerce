@@ -6,57 +6,56 @@ import com.tequila.ecommerce.vinoteca.models.ProductCart;
 import com.tequila.ecommerce.vinoteca.models.User;
 import com.tequila.ecommerce.vinoteca.repository.CartRepository;
 import com.tequila.ecommerce.vinoteca.repository.ProductRepository;
-
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class CartService {
-    public Cart CrearCart(User user) {
+    private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
 
-        Cart carrito = new Cart();
-        carrito.setUser(user);
-        CartRepository.save(carrito);
-
-        return carrito;
+    @Autowired
+    public CartService(CartRepository cartRepository, ProductRepository productRepository) {
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
     }
 
-    public Cart modificarCart(Cart carrito) {
-
-        return carrito;
+    public Cart crearCart(User user) {
+        Cart cart = new Cart();
+        cart.setUser(user);
+        cartRepository.save(cart);
+        return cart;
     }
 
+    public Cart modificarCart(Cart cart) {
+        return cart;
 
+    }
     public Cart agregarProducto(User user, Long productId, int quantity) {
-        // 1. Find the product in the repository
-        Product product = ProductRepository.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
 
-        // 2. Find the cart of the user
-        Cart cart = CartRepository.findByUser(user).orElse(null);
+        Cart cart = cartRepository.findByUser(user).orElse(null);
 
-        // If the cart does not exist, create a new cart for the user
         if (cart == null) {
-            cart = CrearCart(user);
-            CartRepository.save(cart);
+            cart = crearCart(user);
         }
 
-        // 3. Check if the product is already in the cart
-        ProductCart existingCartItem = cart.getProducts().stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
-                .findFirst()
-                .orElse(null);
+        boolean isProductInCart = false;
+        for (ProductCart item : cart.getProducts()) {
+            if (item.getProduct().getId().equals(productId)) {
+                item.setQuantity(item.getQuantity() + quantity);
+                isProductInCart = true;
+                break;
+            }
+        }
 
-        if (existingCartItem != null) {
-            // 4. If the product is already in the cart, increment the quantity
-            existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
-        } else {
-            // 5. If the product is not in the cart, add it as a new CartItem
+        if (!isProductInCart) {
             ProductCart newCartItem = new ProductCart();
             newCartItem.setProduct(product);
             newCartItem.setQuantity(quantity);
             cart.getProducts().add(newCartItem);
         }
 
-        // 6. Save the updated cart in the database
-        CartRepository.save(cart);
+        cartRepository.save(cart);
         return cart;
     }
 }
