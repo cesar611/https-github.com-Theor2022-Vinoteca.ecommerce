@@ -3,6 +3,7 @@ package com.tequila.ecommerce.vinoteca.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -30,6 +31,14 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY) // Cambiado a LAZY
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToMany
+    @JoinTable(
+            name = "combo_product",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "combo_id")
+    )
+    private List<Combo> combo;
 
     // Getters y Setters
     public Long getId() {

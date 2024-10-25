@@ -21,7 +21,7 @@ public class ProductCart {
 
     // Relación ManyToMany con el producto (Product)
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
+    @JoinTable(name = "product_id")
     private List<Product> products;
 
     // Cantidad del producto en el carrito

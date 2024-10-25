@@ -7,9 +7,11 @@ import com.tequila.ecommerce.vinoteca.models.User;
 import com.tequila.ecommerce.vinoteca.repository.CartRepository;
 import com.tequila.ecommerce.vinoteca.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
