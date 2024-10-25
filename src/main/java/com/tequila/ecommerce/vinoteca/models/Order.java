@@ -33,9 +33,10 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user; // Usar User en lugar de Users
 
-    @OneToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id")
+    private List<ProductCart> productCarts;
+
 
 // Getters and setters
 
@@ -95,13 +96,14 @@ public class Order {
         this.user = user;
     }
 
-    public Cart getCart() {
-        return cart;
+    public List<ProductCart> getProductCarts() {
+        return productCarts;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setProductCarts(List<ProductCart> productCarts) {
+        this.productCarts = productCarts;
     }
+
 
 
 }

@@ -8,6 +8,8 @@ import com.tequila.ecommerce.vinoteca.repository.CartRepository;
 import com.tequila.ecommerce.vinoteca.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
@@ -29,7 +31,7 @@ public class CartService {
         return cart;
 
     }
-    public Cart agregarProducto(User user, Long productId, int quantity) {
+    public Cart modificarProducto(User user, Long productId, int quantityDelta) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
 
@@ -41,21 +43,44 @@ public class CartService {
 
         boolean isProductInCart = false;
         for (ProductCart item : cart.getProducts()) {
-            if (item.getProduct().getId().equals(productId)) {
-                item.setQuantity(item.getQuantity() + quantity);
-                isProductInCart = true;
+            for (Product productInCart : item.getProducts()) {
+                if (productInCart.getId().equals(productId)) {
+                    int currentQuantity = item.getQuantity();
+                    int newQuantity = currentQuantity + quantityDelta;
+                    if (newQuantity < 1) {
+                        cart.getProducts().remove(item);
+                    } else {
+                        item.setQuantity(newQuantity);
+                    }
+                    isProductInCart = true;
+                    break;
+                }
+            }
+            if (isProductInCart) {
                 break;
             }
         }
 
         if (!isProductInCart) {
             ProductCart newCartItem = new ProductCart();
-            newCartItem.setProduct(product);
-            newCartItem.setQuantity(quantity);
+            newCartItem.setProducts(List.of(product));
+            newCartItem.setQuantity(quantityDelta);
             cart.getProducts().add(newCartItem);
         }
 
         cartRepository.save(cart);
         return cart;
     }
+
+    public void emptyCart(Cart cart) {
+        cart.getProducts().clear();
+        cartRepository.save(cart);
+    }
+
+    public List<ProductCart> getProducts(Cart cart) {
+        return cartRepository.findByUser(cart.getUser()).orElseThrow(() -> new IllegalArgumentException("Cart not found with user: " + cart.getUser())).getProducts();
+    }
+
+
+
 }
